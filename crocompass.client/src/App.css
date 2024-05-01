@@ -1,0 +1,29 @@
+﻿.navbar {
+    background-color: #00457C;
+    color: white;
+    text-align: left;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+.content h2 {
+    margin-bottom: 20px;
+}
