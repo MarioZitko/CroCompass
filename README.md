@@ -97,7 +97,7 @@
  
  Borna Jurak - borna.jurak3@gmail.com
 
- Project Link: [https://github.com/yourgithubusername/crocompass](https://github.com/MarioZitko/CroCompass)
+ Project Link: [https://github.com/MarioZitko/CroCompass](https://github.com/MarioZitko/CroCompass)
 
  ## Acknowledgements
 
