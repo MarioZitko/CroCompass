@@ -19,6 +19,17 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
+    [HttpPost("add")]
+    public async Task<ActionResult> AddUser(UserRegistrationDto userDto)
+    {
+        var result = await _userService.RegisterUserAsync(userDto);
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+        return Ok("User registered successfully");
+    }
+
     [HttpPost("register")]
     public async Task<ActionResult> Register(UserRegistrationDto registrationDto)
     {
