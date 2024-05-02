@@ -14,33 +14,59 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
   imageUrl,
 }) => {
   return (
-    <Card
-      className="text-white"
-      style={{
-        width: "18rem",
-        backgroundImage: `url(${imageUrl})`,
-        backgroundSize: "cover", // Ensure the background covers the card
-        backgroundPosition: "center", // Center the background image
-      }}
-    >
-      <Card.Body
+    // The Card component itself becomes clickable
+    <a href="/dubrovnik" style={{ textDecoration: "none", overflow: "hidden" }}>
+      <Card
+        className="text-white"
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end", // Align text to the bottom
-          height: "100%", // Take full height of the card
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay for text readability
-          padding: "1rem", // Padding around the text
-          borderRadius: "0.25rem", // Optional: if you want rounded corners
+          width: "30rem", // Set initial size
+          height: "18rem",
+          backgroundImage: `url(${imageUrl})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderRadius: "0.75rem",
+          overflow: "hidden", // Prevents the image from overflowing during scale
+          transition: "transform 0.3s ease, background 0.3s ease", // Smooth transition for hover effects
+        }}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = "scale(1.05)"; // Enlarges the card
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = "scale(1)"; // Reverts the card size
         }}
       >
-        <Card.Title>{title}</Card.Title>
-        <Card.Text>{description}</Card.Text>
-        <button className="btn btn-primary" style={{ marginTop: "auto" }}>
-          Learn more
-        </button>
-      </Card.Body>
-    </Card>
+        <Card.Body
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.4)", // Semi-transparent overlay
+            padding: "1.5rem",
+            borderRadius: "0.75rem",
+          }}
+        >
+          <Card.Title style={{ fontSize: "1.2rem" }}>{title}</Card.Title>
+          <Card.Text style={{ fontSize: "0.9rem" }}>{description}</Card.Text>
+        </Card.Body>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0)", // Initial background color transparent
+          }}
+          onMouseOver={(e) =>
+            (e.currentTarget.style.background = "rgba(0,0,0,0.2)")
+          } // Darken on hover
+          onMouseOut={(e) =>
+            (e.currentTarget.style.background = "rgba(0,0,0,0)")
+          } // Revert on mouse out
+        />
+      </Card>
+    </a>
   );
 };
 

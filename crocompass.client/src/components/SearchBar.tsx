@@ -14,8 +14,9 @@ const SearchBar = () => {
       <div
         style={{
           position: "absolute", // Relative position for the container
-          width: "35%", // Full width to contain both the input and the button
+          width: "85%", // Full width to contain both the input and the button
           minWidth: "350px",
+          maxWidth: "1000px",
           borderRadius: "30px", // Applies rounded corners to the whole search bar
           border: "1px solid #ccc", // Border for the whole search bar
         }}
