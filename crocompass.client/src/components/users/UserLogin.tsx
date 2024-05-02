@@ -15,9 +15,10 @@ const UserLogin: React.FC = () => {
         e.preventDefault();
         try {
             const response = await axios.post('/api/users/login', { username, password });
-            localStorage.setItem('authToken', response.data.token);
+            const { token, role } = response.data;  // Assuming the response includes the role
+            localStorage.setItem('authToken', token);
             console.log('Login successful:', response.data);
-            login(username);
+            login(username, role);  // Pass the role to the login function
             navigate('/');
         } catch (error: any) {
             const responseErrors = error.response?.data?.errors || ['Failed to log in. Please check your credentials and try again.'];

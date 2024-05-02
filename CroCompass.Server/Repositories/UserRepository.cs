@@ -9,10 +9,16 @@ public class UserRepository : IUserRepository
         _userManager = userManager;
     }
 
-    public async Task<IdentityResult> AddUserAsync(User user, string password)
+    public async Task<IdentityResult> AddUserAsync(User user, string password, string role = null)
     {
-        return await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, password);
+        if (result.Succeeded && !string.IsNullOrEmpty(role))
+        {
+            await _userManager.AddToRoleAsync(user, role);
+        }
+        return result;
     }
+
 
     public async Task<IdentityResult> UpdateUserAsync(User user)
     {

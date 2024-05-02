@@ -4,7 +4,12 @@ import axios from '../../api/axiosConfig';
 
 interface SignupFormState {
     username: string;
+    email: string;
     password: string;
+    firstName: string;
+    lastName: string;
+    contactNumber: string;
+    bio: string;
 }
 
 interface ErrorMessages {
@@ -12,7 +17,15 @@ interface ErrorMessages {
 }
 
 const UserSignup: React.FC = () => {
-    const [formState, setFormState] = useState<SignupFormState>({ username: '', password: '' });
+    const [formState, setFormState] = useState<SignupFormState>({
+        username: '',
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        contactNumber: '',
+        bio: ''
+    });
     const [errors, setErrors] = useState<ErrorMessages>({});
     const [successMessage, setSuccessMessage] = useState<string>("");
 
@@ -27,7 +40,15 @@ const UserSignup: React.FC = () => {
         try {
             const response = await axios.post('/api/users/register', formState);
             console.log('Submission successful:', response.data);
-            setFormState({ username: '', password: '' });
+            setFormState({
+                username: '',
+                email: '',
+                password: '',
+                firstName: '',
+                lastName: '',
+                contactNumber: '',
+                bio: ''
+            });
             setSuccessMessage("User registered successfully! Please log in.");
         } catch (error: any) {
             setSuccessMessage("");
@@ -42,17 +63,18 @@ const UserSignup: React.FC = () => {
     };
 
     return (
-        <Container style={{ width: '300px', marginTop: '100px' }} className="d-flex justify-content-center align-items-center">
+        <Container style={{ width: '400px', marginTop: '100px' }} className="d-flex justify-content-center align-items-center">
             <Form onSubmit={handleSubmit}>
                 <h2>Sign Up</h2>
                 {successMessage && <Alert variant="success">{successMessage}</Alert>}
                 {Object.keys(errors).length > 0 && (
                     Object.entries(errors).map(([field, messages]) => (
                         <Alert key={field} variant="danger">
-                            {messages.join(' ')} 
+                            {messages.join(' ')}
                         </Alert>
                     ))
                 )}
+                {/* Additional fields for registration */}
                 <Form.Group className="mb-3">
                     <Form.Label>Username</Form.Label>
                     <Form.Control
@@ -63,9 +85,17 @@ const UserSignup: React.FC = () => {
                         placeholder="Enter your username"
                         isInvalid={!!errors.username}
                     />
-                    <Form.Control.Feedback type="invalid">
-                        {errors.username && errors.username.join(' ')}
-                    </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        value={formState.email}
+                        onChange={handleInputChange}
+                        placeholder="Enter your email"
+                        isInvalid={!!errors.email}
+                    />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Password</Form.Label>
@@ -77,9 +107,47 @@ const UserSignup: React.FC = () => {
                         placeholder="Enter your password"
                         isInvalid={!!errors.password}
                     />
-                    <Form.Control.Feedback type="invalid">
-                        {errors.password && errors.password.join(' ')}
-                    </Form.Control.Feedback>
+                </Form.Group>
+                {/* Example fields for additional user data */}
+                <Form.Group className="mb-3">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="firstName"
+                        value={formState.firstName}
+                        onChange={handleInputChange}
+                        placeholder="Enter your first name"
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="lastName"
+                        value={formState.lastName}
+                        onChange={handleInputChange}
+                        placeholder="Enter your last name"
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Contact Number</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="contactNumber"
+                        value={formState.contactNumber}
+                        onChange={handleInputChange}
+                        placeholder="Enter your contact number"
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Bio</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="bio"
+                        value={formState.bio}
+                        onChange={handleInputChange}
+                        placeholder="A short bio"
+                    />
                 </Form.Group>
                 <Button type="submit" variant="primary">Sign Up</Button>
             </Form>

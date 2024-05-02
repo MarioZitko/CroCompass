@@ -19,9 +19,15 @@ public class UserService : IUserService
 
     public async Task<IdentityResult> RegisterUserAsync(UserRegistrationDto userRegistration)
     {
-        var user = new User { UserName = userRegistration.UserName, Email = userRegistration.UserName};
-        return await _userRepository.AddUserAsync(user, userRegistration.Password);
+        var user = new User { UserName = userRegistration.UserName, Email = userRegistration.Email };
+        var result = await _userManager.CreateAsync(user, userRegistration.Password);
+        if (result.Succeeded && !string.IsNullOrEmpty(userRegistration.Role))
+        {
+            await _userManager.AddToRoleAsync(user, userRegistration.Role);
+        }
+        return result;
     }
+
 
     public async Task<IdentityResult> UpdateUserAsync(UserUpdateDto updateDto, string userId)
     {
