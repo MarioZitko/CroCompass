@@ -94,7 +94,7 @@ static void SeedUsersAndRoles(WebApplication app)
     using (var scope = app.Services.CreateScope())
     {
         var serviceProvider = scope.ServiceProvider;
-        var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
         // Ensure the database is created
@@ -114,7 +114,7 @@ static void SeedUsersAndRoles(WebApplication app)
             }
 
             // Seed an admin user
-            var adminUser = new IdentityUser
+            var adminUser = new User
             {
                 UserName = "admin",
                 Email = "admin@example.com",
@@ -122,7 +122,7 @@ static void SeedUsersAndRoles(WebApplication app)
             };
             if (userManager.Users.All(u => u.UserName != adminUser.UserName))
             {
-                var createUser = await userManager.CreateAsync(adminUser, "Admin123!");
+                var createUser = await userManager.CreateAsync(adminUser, "admin");
                 if (createUser.Succeeded)
                 {
                     await userManager.AddToRoleAsync(adminUser, "Admin");

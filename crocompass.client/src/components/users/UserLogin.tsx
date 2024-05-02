@@ -11,21 +11,32 @@ const UserLogin: React.FC = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('/api/users/login', { username, password });
-            const { token, role } = response.data;  // Assuming the response includes the role
-            localStorage.setItem('authToken', token);
-            console.log('Login successful:', response.data);
-            login(username, role);  // Pass the role to the login function
+            localStorage.setItem('authToken', response.data.token);
+            login(username, response.data.role); // Assuming role is returned
             navigate('/');
         } catch (error: any) {
-            const responseErrors = error.response?.data?.errors || ['Failed to log in. Please check your credentials and try again.'];
-            console.error('Login failed:', responseErrors);
-            setErrors(responseErrors);
+            if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                setErrors([error.response.data.message || "Failed to log in. Please check your credentials and try again."]);
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+                setErrors(["No response from server. Check your network connection."]);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+                setErrors([error.message]);
+            }
         }
     };
+
 
     return (
         <Container style={{ width: '300px', marginTop: '100px' }} className="d-flex justify-content-center align-items-center">
