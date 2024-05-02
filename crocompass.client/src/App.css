@@ -27,3 +27,30 @@
 .content h2 {
     margin-bottom: 20px;
 }
+
+.hover-accent:hover {
+    background-color: #f51441;
+    color: #ffffff;
+}
+
+.navigation-bar .navbar-logo {
+    color: #f51441;
+    font-weight: bold;
+}
+
+.navigation-bar .nav-link {
+    position: relative;
+    color: black;
+    font-weight: bold;
+}
+
+    .navigation-bar .nav-link:hover::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+        height: 2px;
+        background-color: #f51441; /* Dark green underline on hover */
+        width: 100%;
+    }

@@ -2,6 +2,7 @@
 
 public interface IUserService
 {
+    Task<IEnumerable<User>> GetAllUsersAsync();
     Task<IdentityResult> RegisterUserAsync(UserRegistrationDto userRegistration);
     Task<string> AuthenticateAsync(string email, string password);
     Task<IdentityResult> DeleteUserAsync(string userId);

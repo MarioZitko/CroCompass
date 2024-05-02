@@ -12,6 +12,13 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+    {
+        var users = await _userService.GetAllUsersAsync();
+        return Ok(users);
+    }
+
     [HttpPost("register")]
     public async Task<ActionResult> Register(UserRegistrationDto registrationDto)
     {

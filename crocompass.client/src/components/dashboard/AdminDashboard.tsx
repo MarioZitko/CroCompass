@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Table, Container, Row, Col, Form } from 'react-bootstrap';
 import axios from '../../api/axiosConfig';
+import UserModal from '../users/UserModal';
+import AdvertisementModal from '../advertisements/AdvertisementModal';
 
 interface User {
     id: string;
-    username: string;
+    name: string;
     email: string;
 }
 
@@ -29,7 +31,7 @@ const AdminDashboard = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('/users');
+            const response = await axios.get('/api/users');
             setUsers(response.data);
         } catch (error) {
             console.error('Failed to fetch users:', error);
@@ -68,6 +70,13 @@ const AdminDashboard = () => {
 
     return (
         <Container fluid>
+            <Container className="d-flex justify-content-center" style={{ marginTop: '10px', marginBottom: '10px' }}>
+                <Button variant="btn btn-dark" className="mx-2 hover-accent" onClick={() => setShowUserModal(true)}>Add Users</Button>
+                <Button variant="btn btn-dark" className="mx-2 hover-accent" onClick={() => setShowAdModal(true)}>Add Advertisements</Button>
+
+                <UserModal show={showUserModal} onHide={() => setShowUserModal(false)} />
+            <AdvertisementModal show={showAdModal} onHide={() => setShowAdModal(false)} />
+            </Container>
             <Row>
                 <Col>
                     <h2>Users</h2>
@@ -82,7 +91,7 @@ const AdminDashboard = () => {
                         <tbody>
                             {users.map(user => (
                                 <tr key={user.id}>
-                                    <td>{user.username}</td>
+                                    <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>
                                         <Button onClick={() => handleUserClick(user)}>Edit</Button>
@@ -116,74 +125,6 @@ const AdminDashboard = () => {
                     </Table>
                 </Col>
             </Row>
-
-            {/* User Edit Modal */}
-            <Modal show={showUserModal} onHide={closeModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={selectedUser?.username}
-                                onChange={(e) => setSelectedUser({ ...selectedUser!, username: e.target.value })}
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                value={selectedUser?.email}
-                                onChange={(e) => setSelectedUser({ ...selectedUser!, email: e.target.value })}
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModal}>Close</Button>
-                    <Button variant="primary" onClick={() => {
-                        // Implement user update logic
-                        closeModal();
-                    }}>Save Changes</Button>
-                </Modal.Footer>
-            </Modal>
-
-            {/* Advertisement Edit Modal */}
-            <Modal show={showAdModal} onHide={closeModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Advertisement</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={selectedAd?.title}
-                                onChange={(e) => setSelectedAd({ ...selectedAd!, title: e.target.value })}
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Category</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={selectedAd?.category}
-                                onChange={(e) => setSelectedAd({ ...selectedAd!, category: e.target.value })}
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModal}>Close</Button>
-                    <Button variant="primary" onClick={() => {
-                        // Implement ad update logic
-                        closeModal();
-                    }}>Save Changes</Button>
-                </Modal.Footer>
-            </Modal>
         </Container>
     );
 };

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 public class UserRepository : IUserRepository
 {
@@ -7,6 +8,11 @@ public class UserRepository : IUserRepository
     public UserRepository(UserManager<User> userManager)
     {
         _userManager = userManager;
+    }
+    
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+        return await _userManager.Users.ToListAsync();
     }
 
     public async Task<IdentityResult> AddUserAsync(User user, string password, string role = null)

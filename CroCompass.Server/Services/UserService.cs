@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
 
 public class UserService : IUserService
 {
@@ -15,6 +16,11 @@ public class UserService : IUserService
         _userRepository = userRepository;
         _userManager = userManager;
         _configuration = configuration;
+    }
+
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+        return await _userRepository.GetAllUsersAsync();
     }
 
     public async Task<IdentityResult> RegisterUserAsync(UserRegistrationDto userRegistration)
@@ -84,13 +90,18 @@ public class UserService : IUserService
             }
             var key = Encoding.ASCII.GetBytes(keyString);
 
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName)
+        };
+
+            // Fetch roles and add them to the claims
+            FillClaimWithRoles(user, claims);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName)
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(1),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],
@@ -105,6 +116,14 @@ public class UserService : IUserService
             throw new Exception("Error generating JWT token", ex);
         }
     }
+
+    public async Task FillClaimWithRoles(User user, List<Claim> claims)
+    {
+        var roles = await _userManager.GetRolesAsync(user);
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+    }
+
 
 
 }
