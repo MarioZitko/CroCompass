@@ -93,9 +93,10 @@
 
  ## Contact
 
- Your Name - [@your_twitter](https://twitter.com/your_twitter) - email@example.com
+ Mario Žitković - mariozitkovic@gmail.com
+ Borna Jurak - borna.jurak3@gmail.com
 
- Project Link: [https://github.com/yourgithubusername/crocompass](https://github.com/yourgithubusername/crocompass)
+ Project Link: [https://github.com/yourgithubusername/crocompass](https://github.com/MarioZitko/CroCompass)
 
  ## Acknowledgements
 
