@@ -94,6 +94,7 @@
  ## Contact
 
  Mario Žitković - mariozitkovic@gmail.com
+ 
  Borna Jurak - borna.jurak3@gmail.com
 
  Project Link: [https://github.com/yourgithubusername/crocompass](https://github.com/MarioZitko/CroCompass)
