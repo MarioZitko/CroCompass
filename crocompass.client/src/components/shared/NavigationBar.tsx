@@ -1,10 +1,11 @@
-﻿import React from 'react';
+﻿// src/components/NavigationBar.tsx
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useAuth } from '../shared/AuthContext';
 
 const NavigationBar: React.FC = () => {
-    const { currentUser, logout, role } = useAuth();  // Assume `role` is also provided by `useAuth`
+    const { currentUser, logout, role } = useAuth();
 
     return (
         <Navbar bg="dark" fixed="top" expand="lg" variant="dark">
@@ -20,16 +21,11 @@ const NavigationBar: React.FC = () => {
                         {role === 'Advertiser' && (
                             <Nav.Link as={Link} to="/create-ad">Create Advertisement</Nav.Link>
                         )}
-                        {role === 'User' && (
-                            <Nav.Link as={Link} to="/my-reviews">My Reviews</Nav.Link>
-                        )}
+                        {/* More links based on role */}
                     </Nav>
                     <Nav>
                         {currentUser ? (
-                            <>
-                                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-                                <Nav.Link as={Link} to="/" onClick={logout}>Logout</Nav.Link>
-                            </>
+                            <Nav.Link as={Link} to="/" onClick={logout}>Logout</Nav.Link>
                         ) : (
                             <>
                                 <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>

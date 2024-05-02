@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface AuthContextType {
     currentUser: string | null;
-    userRole: string | null;  // Handle user role
+    role: string | null;  // Handle user role
     login: (user: string, role: string) => void;
     logout: () => void;
 }
@@ -23,7 +23,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [currentUser, setCurrentUser] = useState<string | null>(localStorage.getItem('user'));
-    const [userRole, setUserRole] = useState<string | null>(localStorage.getItem('role'));
+    const [role, setUserRole] = useState<string | null>(localStorage.getItem('role'));
 
     const login = (user: string, role: string) => {
         localStorage.setItem('user', user);
@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ currentUser, userRole, login, logout }}>
+        <AuthContext.Provider value={{ currentUser, role, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
